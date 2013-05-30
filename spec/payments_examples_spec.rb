@@ -131,9 +131,6 @@ describe "Payments" do
       describe "instance method" do
 
         it "Execute" do
-          payment = Payment.find("PAY-2XC06729XY607624MKGTR3GQ")
-          payment.execute( :payer_id => "TWLK53YN7GDM6" )
-          # payment.error.should be_nil
           pending "Test with capybara"
         end
       end
