@@ -165,7 +165,7 @@ describe "Payments" do
 
     describe "Authorize" do
       before :each do
-        @payment = Payment.new(PaymentAttributes.merge( :intent => "authorize" ))
+        @payment = Payment.new(PaymentAttributes.merge( "intent" => "authorize" ))
         @payment.create
         @payment.error.should be_nil
       end
@@ -190,7 +190,7 @@ describe "Payments" do
 
      it "Reauthorization" do
         authorize = Authorization.find("7GH53639GA425732B");
-        authorize.amount = { :currency => "USD", :total => "1.00" } 
+        authorize.amount = { :currency => "USD", :total => "1.00" }
         authorize.reauthorize()
         authorize.error.should_not be_nil
       end
@@ -198,7 +198,7 @@ describe "Payments" do
 
     describe "Capture" do
       before :each do
-        @payment = Payment.new(PaymentAttributes.merge( :intent => "authorize" ))
+        @payment = Payment.new(PaymentAttributes.merge( "intent" => "authorize" ))
         @payment.create
         @payment.error.should be_nil
         authorize = @payment.transactions[0].related_resources[0].authorization
