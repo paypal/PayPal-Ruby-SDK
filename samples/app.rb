@@ -87,8 +87,15 @@ class App < Sinatra::Application
       :header => "Saved a new credit card: #{@credit_card.id}",
       :display_hash => @credit_card }
   end
+  
+  get "/authorization/reauthorize" do
+    @authorization = RunSample.run("authorization/reauthorize.rb", "@authorization")
+    haml :display_hash, :locals => {
+      :header => "Reauthorized: #{@authorization.id}",
+      :display_hash => @authorization }
+  end
 
-  Dir["payment/*", "sale/*", "credit_card/*"].each do |file_name|
+  Dir["payment/*", "sale/*", "credit_card/*", "authorization/*"].each do |file_name|
     get "/#{file_name.sub(/rb$/, "html")}" do
       CodeRay.scan(File.read(file_name), "ruby").page :title => "Source: #{file_name}"
     end
