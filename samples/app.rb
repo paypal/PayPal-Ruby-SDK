@@ -80,6 +80,13 @@ class App < Sinatra::Application
       :header => "Retrieving credit card: #{@credit_card.id}",
       :display_hash => @credit_card }
   end
+  
+  get "/credit_card/delete" do
+      @credit_card = RunSample.run("credit_card/delete.rb", "@credit_card")
+      haml :display_hash, :locals => {
+        :header => "Deleted credit card: #{@credit_card.id}",
+        :display_hash => @credit_card }
+  end
 
   get "/credit_card/create" do
     @credit_card = RunSample.run("credit_card/create.rb", "@credit_card")
@@ -91,11 +98,46 @@ class App < Sinatra::Application
   get "/authorization/reauthorize" do
     @authorization = RunSample.run("authorization/reauthorize.rb", "@authorization")
     haml :display_hash, :locals => {
-      :header => "Reauthorized: #{@authorization.id}",
+      :header => "Reauthorized an authorized payment: #{@authorization.id}",
       :display_hash => @authorization }
   end
+  
+  get "/authorization/find" do
+    @authorization = RunSample.run("authorization/find.rb", "@authorization")
+    haml :display_hash, :locals => {
+      :header => "Retrieving an authorization payment: #{@authorization.id}",
+      :display_hash => @authorization }
+  end
+  
+  get "/authorization/void" do
+    @authorization = RunSample.run("authorization/void.rb", "@authorization")
+    haml :display_hash, :locals => {
+      :header => "Void an authorized payment: #{@authorization.id}",
+      :display_hash => @authorization }
+  end
+    
+  get "/authorization/capture" do
+    @capture = RunSample.run("authorization/capture.rb", "@capture")
+    haml :display_hash, :locals => {
+      :header => "Captured an authorized payment: #{@capture.id}",
+      :display_hash => @capture }
+  end
+   
+  get "/capture/find" do
+    @capture = RunSample.run("capture/find.rb", "@capture")
+    haml :display_hash, :locals => {
+      :header => "Retrieving Captured Payment: #{@capture.id}",
+      :display_hash => @capture }
+  end
+     
+  get "/capture/refund" do
+    @refund = RunSample.run("capture/refund.rb", "@refund")
+    haml :display_hash, :locals => {
+      :header => "Refunding Captured Payment: #{@refund.sale_id}",
+      :display_hash => @refund }
+  end
 
-  Dir["payment/*", "sale/*", "credit_card/*", "authorization/*"].each do |file_name|
+  Dir["payment/*", "sale/*", "credit_card/*", "authorization/*", "capture/*"].each do |file_name|
     get "/#{file_name.sub(/rb$/, "html")}" do
       CodeRay.scan(File.read(file_name), "ruby").page :title => "Source: #{file_name}"
     end

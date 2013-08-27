@@ -8,7 +8,7 @@ include PayPal::SDK::Core::Logging
 
 # ###Payment
 # A Payment Resource; create one using
-# the above types and intent as 'sale'
+# the above types and intent as `sale` or `authorize`
 @payment = Payment.new({
   :intent => "sale",
   # ###Payer
@@ -27,7 +27,7 @@ include PayPal::SDK::Core::Logging
       # A resource representing a credit card that can be
       # used to fund a payment.
       :credit_card_token => {
-        :credit_card_id => "CARD-5BT058015C739554AKE2GCEI" }}]},
+        :credit_card_id => "CARD-47D02392S1941151TKIODGQI" }}]},
 
   # ###Transaction
   # A transaction defines the contract of a

@@ -14,6 +14,6 @@ begin
   logger.info "Got Payment Details for Payment[#{@payment.id}]"
 
 rescue ResourceNotFound => err
-  # It will through ResourceNotFound exception if the payment not found
+  # It will throw ResourceNotFound exception if the payment not found
   logger.error "Payment Not Found"
 end
