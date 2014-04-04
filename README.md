@@ -178,3 +178,4 @@ userinfo = Userinfo.get("Replace with access_token")
 # Get logout url
 logout_url = tokeninfo.logout_url
 ```
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/paypal/rest-api-sdk-ruby/trend.png)](https://bitdeli.com/free "Bitdeli Badge")

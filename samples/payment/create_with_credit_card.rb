@@ -8,7 +8,7 @@ include PayPal::SDK::Core::Logging
 
 # ###Payment
 # A Payment Resource; create one using
-# the above types and intent as 'sale'
+# the above types and intent as `sale or `authorize`
 @payment = Payment.new({
   :intent => "sale",
 

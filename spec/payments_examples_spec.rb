@@ -131,9 +131,6 @@ describe "Payments" do
       describe "instance method" do
 
         it "Execute" do
-          payment = Payment.find("PAY-2XC06729XY607624MKGTR3GQ")
-          payment.execute( :payer_id => "TWLK53YN7GDM6" )
-          # payment.error.should be_nil
           pending "Test with capybara"
         end
       end
@@ -168,7 +165,7 @@ describe "Payments" do
 
     describe "Authorize" do
       before :each do
-        @payment = Payment.new(PaymentAttributes.merge( :intent => "authorize" ))
+        @payment = Payment.new(PaymentAttributes.merge( "intent" => "authorize" ))
         @payment.create
         @payment.error.should be_nil
       end
@@ -191,11 +188,17 @@ describe "Payments" do
         authorize.error.should be_nil
       end
 
+     it "Reauthorization" do
+        authorize = Authorization.find("7GH53639GA425732B");
+        authorize.amount = { :currency => "USD", :total => "1.00" }
+        authorize.reauthorize()
+        authorize.error.should_not be_nil
+      end
     end
 
     describe "Capture" do
       before :each do
-        @payment = Payment.new(PaymentAttributes.merge( :intent => "authorize" ))
+        @payment = Payment.new(PaymentAttributes.merge( "intent" => "authorize" ))
         @payment.create
         @payment.error.should be_nil
         authorize = @payment.transactions[0].related_resources[0].authorization
