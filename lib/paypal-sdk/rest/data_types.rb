@@ -69,8 +69,9 @@ module PayPal::SDK
         end
 
         class << self
-          def find(resource_id)
+          def find(resource_id, new_api = nil)
             raise ArgumentError.new("id required") if resource_id.to_s.strip.empty?
+            self.api = new_api if new_api.present?
             path = "v1/payments/payment/#{resource_id}"
             self.new(api.get(path))
           end
@@ -137,10 +138,11 @@ module PayPal::SDK
         end
 
         class << self
-          def find(resource_id)
+          def find(resource_id, new_api = nil)
             raise ArgumentError.new("id required") if resource_id.to_s.strip.empty?
+            self.api = new_api if new_api.present?
             path = "v1/vault/credit-card/#{resource_id}"
-            self.new(api.get(path))
+            self.new(new_api.get(path))
           end
         end
 
@@ -318,8 +320,9 @@ module PayPal::SDK
         include RequestDataType
 
         class << self
-          def find(resource_id)
+          def find(resource_id, new_api = nil)
             raise ArgumentError.new("id required") if resource_id.to_s.strip.empty?
+            self.api = new_api if new_api.present?
             path = "v1/payments/sale/#{resource_id}"
             self.new(api.get(path))
           end
@@ -349,8 +352,9 @@ module PayPal::SDK
         include RequestDataType
 
         class << self
-          def find(resource_id)
+          def find(resource_id, new_api = nil)
             raise ArgumentError.new("id required") if resource_id.to_s.strip.empty?
+            self.api = new_api if new_api.present?
             path = "v1/payments/authorization/#{resource_id}"
             self.new(api.get(path))
           end
@@ -394,8 +398,9 @@ module PayPal::SDK
         include RequestDataType
 
         class << self
-          def find(resource_id)
+          def find(resource_id, new_api = nil)
             raise ArgumentError.new("id required") if resource_id.to_s.strip.empty?
+            self.api = new_api if new_api.present?
             path = "v1/payments/capture/#{resource_id}"
             self.new(api.get(path))
           end
@@ -426,8 +431,9 @@ module PayPal::SDK
         include RequestDataType
 
         class << self
-          def find(resource_id)
+          def find(resource_id, new_api = nil)
             raise ArgumentError.new("id required") if resource_id.to_s.strip.empty?
+            self.api = new_api if new_api.present?
             path = "v1/payments/refund/#{resource_id}"
             self.new(api.get(path))
           end
@@ -562,8 +568,9 @@ module PayPal::SDK
         end
 
         class << self
-          def find(resource_id)
+          def find(resource_id, new_api = nil)
             raise ArgumentError.new("id required") if resource_id.to_s.strip.empty?
+            self.api = new_api if new_api.present?
             path = "v1/invoicing/invoices/#{resource_id}"
             self.new(api.get(path))
           end
