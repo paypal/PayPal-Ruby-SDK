@@ -69,8 +69,9 @@ module PayPal::SDK
         end
 
         class << self
-          def find(resource_id)
+          def find(resource_id, new_api = nil)
             raise ArgumentError.new("id required") if resource_id.to_s.strip.empty?
+            self.api = new_api if new_api.present?
             path = "v1/payments/payment/#{resource_id}"
             self.new(api.get(path))
           end
@@ -85,7 +86,8 @@ module PayPal::SDK
         end
 
         class << self
-          def all(options = {})
+          def all(options = {}, new_api = nil)
+            self.api = new_api if new_api.present?
             path = "v1/payments/payment"
             PaymentHistory.new(api.get(path, options))
           end
@@ -137,10 +139,11 @@ module PayPal::SDK
         end
 
         class << self
-          def find(resource_id)
+          def find(resource_id, new_api = nil)
             raise ArgumentError.new("id required") if resource_id.to_s.strip.empty?
+            self.api = new_api if new_api.present?
             path = "v1/vault/credit-card/#{resource_id}"
-            self.new(api.get(path))
+            self.new(new.get(path))
           end
         end
 
@@ -159,7 +162,8 @@ module PayPal::SDK
         end
 
         class << self
-          def all(options = {})
+          def all(options = {}, new_api = nil)
+            self.api = new_api if new_api.present?
             path = "v1/vault/credit-card"
             CreditCardHistory.new(api.get(path, options))
           end
@@ -318,8 +322,9 @@ module PayPal::SDK
         include RequestDataType
 
         class << self
-          def find(resource_id)
+          def find(resource_id, new_api = nil)
             raise ArgumentError.new("id required") if resource_id.to_s.strip.empty?
+            self.api = new_api if new_api.present?
             path = "v1/payments/sale/#{resource_id}"
             self.new(api.get(path))
           end
@@ -349,8 +354,9 @@ module PayPal::SDK
         include RequestDataType
 
         class << self
-          def find(resource_id)
+          def find(resource_id, new_api = nil)
             raise ArgumentError.new("id required") if resource_id.to_s.strip.empty?
+            self.api = new_api if new_api.present?
             path = "v1/payments/authorization/#{resource_id}"
             self.new(api.get(path))
           end
@@ -394,8 +400,9 @@ module PayPal::SDK
         include RequestDataType
 
         class << self
-          def find(resource_id)
+          def find(resource_id, new_api = nil)
             raise ArgumentError.new("id required") if resource_id.to_s.strip.empty?
+            self.api = new_api if new_api.present?
             path = "v1/payments/capture/#{resource_id}"
             self.new(api.get(path))
           end
@@ -426,8 +433,9 @@ module PayPal::SDK
         include RequestDataType
 
         class << self
-          def find(resource_id)
+          def find(resource_id, new_api = nil)
             raise ArgumentError.new("id required") if resource_id.to_s.strip.empty?
+            self.api = new_api if new_api.present?
             path = "v1/payments/refund/#{resource_id}"
             self.new(api.get(path))
           end
@@ -515,7 +523,8 @@ module PayPal::SDK
         end
 
         class << self
-          def self.search(options)
+          def self.search(options, new_api = nil)
+            self.api = new_api if new_api.present?
             path = "v1/invoicing/search"
             response = api.post(path, options)
             Invoices.new(response)
@@ -562,15 +571,17 @@ module PayPal::SDK
         end
 
         class << self
-          def find(resource_id)
+          def find(resource_id, new_api = nil)
             raise ArgumentError.new("id required") if resource_id.to_s.strip.empty?
+            self.api = new_api if new_api.present?
             path = "v1/invoicing/invoices/#{resource_id}"
             self.new(api.get(path))
           end
         end
 
         class << self
-          def get_all(options = {})
+          def get_all(options = {}, new_api = nil)
+            self.api = new_api if new_api.present?
             path = "v1/invoicing/invoices/"
             Invoices.new(api.get(path, options))
           end
