@@ -86,7 +86,8 @@ module PayPal::SDK
         end
 
         class << self
-          def all(options = {})
+          def all(options = {}, new_api = nil)
+            self.api = new_api if new_api.present?
             path = "v1/payments/payment"
             PaymentHistory.new(api.get(path, options))
           end
@@ -142,7 +143,7 @@ module PayPal::SDK
             raise ArgumentError.new("id required") if resource_id.to_s.strip.empty?
             self.api = new_api if new_api.present?
             path = "v1/vault/credit-card/#{resource_id}"
-            self.new(new_api.get(path))
+            self.new(new.get(path))
           end
         end
 
@@ -161,7 +162,8 @@ module PayPal::SDK
         end
 
         class << self
-          def all(options = {})
+          def all(options = {}, new_api = nil)
+            self.api = new_api if new_api.present?
             path = "v1/vault/credit-card"
             CreditCardHistory.new(api.get(path, options))
           end
@@ -521,7 +523,8 @@ module PayPal::SDK
         end
 
         class << self
-          def self.search(options)
+          def self.search(options, new_api = nil)
+            self.api = new_api if new_api.present?
             path = "v1/invoicing/search"
             response = api.post(path, options)
             Invoices.new(response)
@@ -577,7 +580,8 @@ module PayPal::SDK
         end
 
         class << self
-          def get_all(options = {})
+          def get_all(options = {}, new_api = nil)
+            self.api = new_api if new_api.present?
             path = "v1/invoicing/invoices/"
             Invoices.new(api.get(path, options))
           end
