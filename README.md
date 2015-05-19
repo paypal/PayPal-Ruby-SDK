@@ -112,7 +112,6 @@ puts userinfo.to_hash
 put tokeninfo.logout_url
 ```
 
-
 ## Create Payment
 
 ```ruby
@@ -227,3 +226,36 @@ userinfo = Userinfo.get("Replace with access_token")
 logout_url = tokeninfo.logout_url
 ```
 [![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/paypal/rest-api-sdk-ruby/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
+
+## Payouts
+
+```ruby
+Payout.new(
+  {
+    :sender_batch_header => {
+      :sender_batch_id => SecureRandom.hex(8),
+      :email_subject => 'You have a Payout!',
+    },
+    :items => [
+      {
+        :recipient_type => 'EMAIL',
+        :amount => {
+          :value => '1.0',
+          :currency => 'USD'
+        },
+        :note => 'Thanks for your work!',
+        :receiver => 'shirt-supplier-one@mail.com',
+        :sender_item_id => "2014031400023",
+      }
+    ]
+  }
+)
+
+begin
+  @payout_batch = @payout.create
+  logger.info "Created Payout with [#{@payout_batch.batch_header.payout_batch_id}]"
+rescue ResourceNotFound => err
+  logger.error @payout.error.inspect
+end
+```
