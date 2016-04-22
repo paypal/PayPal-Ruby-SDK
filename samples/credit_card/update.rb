@@ -33,17 +33,29 @@ include PayPal::SDK::Core::Logging
      :postal_code => "43210",
      :country_code => "US" }})
 
-@updated_card = {
-  :op=> "replace",
-  :path=> "/billing_address",
-  :value=> {
-    "line1": "111 First Street",
-    "city": "Saratoga",
-    "country_code": "US",
-    "state": "CA",
-    "postal_code": "95070"
+@patch_requests = [
+  {
+    :op => "replace",
+    :path => "/billing_address",
+    :value => {
+      "line1": "111 First Street",
+      "city": "Saratoga",
+      "country_code": "US",
+      "state": "CA",
+      "postal_code": "95070"
+    }
+  },
+  {
+    :op => "replace",
+    :path => "/first_name",
+    :value => "Mary"
+  },
+  {
+    :op => "replace",
+    :path => "/last_name",
+    :value => "Shopper"
   }
-}
+]
 
 # Make API call & get response status
 # ###Save
@@ -53,8 +65,7 @@ if @credit_card.create
   logger.info "CreditCard[#{@credit_card.id}] created successfully"
 
   # update the newly created credit card
-  patch_request = Patch.new(@updated_card)
-  if @credit_card.update(patch_request)
+  if @credit_card.update(@patch_requests)
     logger.info "CreditCard[#{@credit_card.id}] updated successfully"
   else
     logger.error "Error while updating CreditCard:"

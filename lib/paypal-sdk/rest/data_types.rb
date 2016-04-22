@@ -323,11 +323,14 @@ module PayPal::SDK
           success?
         end
 
-        def update(patch)
-          patch = Patch.new(patch) unless patch.is_a? Patch
-          patch_request = Array.new(1, patch.to_hash)
+        def update(patch_requests)
+          patch_request_array = []
+          patch_requests.each do |patch_request|
+            patch_request = Patch.new(patch_request) unless patch_request.is_a? Patch
+            patch_request_array << patch_request.to_hash
+          end
           path = "v1/vault/credit-cards/#{self.id}"
-          response = api.patch(path, patch_request, http_header)
+          response = api.patch(path, patch_request_array, http_header)
           self.merge!(response)
           success?
         end
