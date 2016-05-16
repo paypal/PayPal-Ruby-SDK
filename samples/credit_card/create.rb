@@ -33,6 +33,10 @@ include PayPal::SDK::Core::Logging
      :postal_code => "43210",
      :country_code => "US" }})
 
+@credit_card.header = {
+  "Jay" => "was here"
+}
+
 # Make API call & get response status
 # ###Save
 # Creates the credit card as a resource
