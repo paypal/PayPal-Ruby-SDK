@@ -10,3 +10,5 @@ group :test do
   gem 'simplecov', :require => false
   gem 'rspec'
 end
+
+gem 'releasinator', '~> 0.4'
