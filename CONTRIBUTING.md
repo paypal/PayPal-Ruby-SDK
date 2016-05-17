@@ -1,4 +1,4 @@
-# Contribute to the PayPal-Cordova-Plugin
+# Contribute to the PayPal Ruby SDK
 
 ### *Pull requests are welcome!*
 
