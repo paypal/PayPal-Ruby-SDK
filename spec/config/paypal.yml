@@ -5,7 +5,7 @@ test: &default
   password: WX4WTU3S8MY44S7F
   signature: AFcWxV21C7fd0v3bYYYRCpSSRl31A7yDhhsPUU2XhtMoZXsWHFxu-RWy
   app_id: APP-80W284485P519543T
-  http_timeout: 30
+  http_timeout: 120
   mode: sandbox
   sandbox_email_address: Platform.sdk.seller@gmail.com
 
