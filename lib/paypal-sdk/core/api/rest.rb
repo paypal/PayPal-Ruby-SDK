@@ -46,7 +46,7 @@ module PayPal::SDK::Core
       end
 
       # Generate Oauth token or Get cached
-      def token_hash(auth_code=nil)
+      def token_hash(auth_code=nil, headers=nil)
         validate_token_hash
         @token_hash ||=
           begin
@@ -54,7 +54,7 @@ module PayPal::SDK::Core
             basic_auth = ["#{config.client_id}:#{config.client_secret}"].pack('m').delete("\r\n")
             token_headers = default_http_header.merge({
               "Content-Type"  => "application/x-www-form-urlencoded",
-              "Authorization" => "Basic #{basic_auth}" })
+              "Authorization" => "Basic #{basic_auth}" }).merge(headers)
             if auth_code != nil
               TOKEN_REQUEST_PARAMS.replace "grant_type=authorization_code&response_type=token&redirect_uri=urn%3Aietf%3Awg%3Aoauth%3A2.0%3Aoob&code="
               TOKEN_REQUEST_PARAMS << auth_code
@@ -66,13 +66,13 @@ module PayPal::SDK::Core
       attr_writer :token_hash
 
       # Get access token
-      def token(auth_code=nil)
-        token_hash(auth_code)[:access_token]
+      def token(auth_code=nil, headers={})
+        token_hash(auth_code, headers)[:access_token]
       end
 
       # Get access token type
-      def token_type
-        token_hash[:token_type] || "Bearer"
+      def token_type(headers={})
+        token_hash(nil, headers)[:token_type] || "Bearer"
       end
 
       # token setter
@@ -120,13 +120,17 @@ module PayPal::SDK::Core
       # === Generate
       # * payload( uri, body, header )
       def format_request(payload)
+        logger.info ("Payload Found here")
+        logger.info payload[:header]
         # Request URI
         payload[:uri].path = url_join(payload[:uri].path, payload[:action])
         # HTTP Header
         credential_properties = credential(payload[:uri].to_s).properties
         header = map_header_value(NVP_AUTH_HEADER, credential_properties)
-        payload[:header]  = header.merge("Authorization" => "#{token_type} #{token}").
+        payload[:header]  = header.merge("Authorization" => "#{token_type(payload[:header])} #{token(nil, payload[:header])}").
           merge(DEFAULT_HTTP_HEADER).merge(payload[:header])
+        logger.info ("Payload Found here again")
+        logger.info payload[:header]
         # Post Data
         payload[:body]    = MultiJson.dump(payload[:params])
         payload
