@@ -4,7 +4,7 @@ module PayPal
       class ErrorHash < Core::Util::OrderedHash
         def self.convert(hash)
           error_hash = new
-          hash.each{|key, value|
+          hash.each { |key, value|
             error_hash[key] = value
           }
           error_hash
@@ -12,13 +12,13 @@ module PayPal
 
         def []=(key, value)
           value =
-            if value.is_a? Hash
-              ErrorHash.convert(hash)
-            elsif value.is_a? Array and value[0].is_a? Hash
-              value.map{|array_value| ErrorHash.convert(array_value) }
-            else
-              value
-            end
+              if value.is_a? Hash
+                ErrorHash.convert(hash)
+              elsif value.is_a? Array and value[0].is_a? Hash
+                value.map { |array_value| ErrorHash.convert(array_value) }
+              else
+                value
+              end
           super(key, value)
         end
 

@@ -13,18 +13,20 @@ module PayPal
             @api = args[0]
           else
             @api ||= API.new({})
-            @api.set_config(*args)  # Just override the configuration and Not
+            @api.set_config(*args) # Just override the configuration and Not
             @api
           end
         end
+
         alias_method :config=, :set_config
         alias_method :set_api, :set_config
         alias_method :api=, :set_config
 
         # Override token
         def token=(token)
-          set_config( :client_id => nil, :client_secret => nil ).token = token
+          set_config(:client_id => nil, :client_secret => nil).token = token
         end
+
         alias_method :"auth=", :"token="
 
         # Override client id

@@ -15,8 +15,8 @@ module PayPal::SDK::Core
       #   end
       class Base
 
-        HashOptions = { :attribute => true, :namespace => true, :symbol => false }
-        ContentKey  = :value
+        HashOptions = {:attribute => true, :namespace => true, :symbol => false}
+        ContentKey = :value
 
         include SimpleTypes
         include Logging
@@ -28,17 +28,17 @@ module PayPal::SDK::Core
           # * <tt>name</tt>  -- attribute name
           # * <tt>options</tt> -- options
           def add_attribute(name, options = {})
-            add_member(name, SimpleTypes::String, options.merge( :attribute => true ))
+            add_member(name, SimpleTypes::String, options.merge(:attribute => true))
           end
 
           # Fields list for the DataTye
           def members
             @members ||=
-              begin
-                superclass.load_members if defined? superclass.load_members
-                parent_members = superclass.instance_variable_get("@members")
-                parent_members ? parent_members.dup : Util::OrderedHash.new
-              end
+                begin
+                  superclass.load_members if defined? superclass.load_members
+                  parent_members = superclass.instance_variable_get("@members")
+                  parent_members ? parent_members.dup : Util::OrderedHash.new
+                end
           end
 
           # Add Field to class variable hash and generate methods
@@ -50,15 +50,15 @@ module PayPal::SDK::Core
           def add_member(member_name, klass, options = {})
             member_name = member_name.to_sym
             return if members[member_name]
-            members[member_name] = options.merge( :type => klass )
+            members[member_name] = options.merge(:type => klass)
             member_variable_name = "@#{member_name}"
             define_method "#{member_name}=" do |value|
               object = options[:array] ? convert_array(value, klass) : convert_object(value, klass)
               instance_variable_set(member_variable_name, object)
             end
-            default_value = ( options[:array] ? [] : ( klass < Base ? Util::OrderedHash.new : nil ) )
+            default_value = (options[:array] ? [] : (klass < Base ? Util::OrderedHash.new : nil))
             define_method member_name do |&block|
-              value = instance_variable_get(member_variable_name) || ( default_value && send("#{member_name}=", default_value) )
+              value = instance_variable_get(member_variable_name) || (default_value && send("#{member_name}=", default_value))
               value.instance_eval(&block) if block
               value
             end
@@ -149,8 +149,8 @@ module PayPal::SDK::Core
         # # @return
         # # [ <CurrencyType#object @amount="55" @code="USD" > ]
         def convert_array(array, klass)
-          default_value = ( klass < Base ? Util::OrderedHash.new : nil )
-          data_type_array = ArrayWithBlock.new{|object| convert_object(object || default_value, klass) }
+          default_value = (klass < Base ? Util::OrderedHash.new : nil)
+          data_type_array = ArrayWithBlock.new { |object| convert_object(object || default_value, klass) }
           data_type_array.merge!(array)
         end
 
@@ -160,7 +160,7 @@ module PayPal::SDK::Core
         # # @return
         # # <CurrencyType#object @amount="55" @code="USD" >
         def convert_object(object, klass)
-          object.is_a?(klass) ? object : ( ( object.nil? or object == "" ) ? nil : klass.new(object) )
+          object.is_a?(klass) ? object : ((object.nil? or object == "") ? nil : klass.new(object))
         end
 
         # Alias instance method for the class method.
@@ -176,7 +176,7 @@ module PayPal::SDK::Core
         # Create Hash based configured members
         def to_hash(options = {})
           options = HashOptions.merge(options)
-          hash    = Util::OrderedHash.new
+          hash = Util::OrderedHash.new
           member_names.each do |member|
             value = value_to_hash(instance_variable_get("@#{member}"), options)
             hash[hash_key(member, options)] = value unless skip_value?(value)
@@ -186,7 +186,7 @@ module PayPal::SDK::Core
 
         # Skip nil, empty array and empty hash.
         def skip_value?(value)
-          value.nil? || ( ( value.is_a?(Array) || value.is_a?(Hash) ) && value.empty? )
+          value.nil? || ((value.is_a?(Array) || value.is_a?(Hash)) && value.empty?)
         end
 
         # Generate Hash key for given member name based on configuration
@@ -208,14 +208,14 @@ module PayPal::SDK::Core
         # Covert the object to hash based on class.
         def value_to_hash(value, options = {})
           case value
-          when Array
-            value = value.map{|object| value_to_hash(object, options) }
-            value.delete_if{|v| skip_value?(v) }
-            value
-          when Base
-            value.to_hash(options)
-          else
-            value
+            when Array
+              value = value.map { |object| value_to_hash(object, options) }
+              value.delete_if { |v| skip_value?(v) }
+              value
+            when Base
+              value.to_hash(options)
+            else
+              value
           end
         end
       end

@@ -10,7 +10,7 @@ module PayPal::SDK
     module DataTypes
       class Base < Core::API::DataTypes::Base
         attr_accessor :error
-        attr_writer   :header, :request_id
+        attr_writer :header, :request_id
 
         def header
           @header ||= {}
@@ -21,7 +21,7 @@ module PayPal::SDK
         end
 
         def http_header
-          { "PayPal-Request-Id" => request_id.to_s }.merge(header)
+          {"PayPal-Request-Id" => request_id.to_s}.merge(header)
         end
 
         def success?
@@ -42,7 +42,7 @@ module PayPal::SDK
 
         def self.raise_on_api_error(*methods)
           methods.each do |symbol|
-            define_method("#{symbol}!") {|*arg|
+            define_method("#{symbol}!") { |*arg|
               raise_error! unless send(symbol, *arg)
             }
           end
@@ -59,17 +59,17 @@ module PayPal::SDK
           object_of :payer, Payer
           object_of :payee, Payee
           object_of :cart, String
-          array_of  :transactions, Transaction
-          array_of  :failed_transactions, Error
+          array_of :transactions, Transaction
+          array_of :failed_transactions, Error
           object_of :payment_instruction, PaymentInstruction
           object_of :state, String
           object_of :experience_profile_id, String
           object_of :redirect_urls, RedirectUrls
           object_of :create_time, String
           object_of :update_time, String
-          array_of  :links, Links
+          array_of :links, Links
           object_of :note_to_payer, String
-          array_of  :billing_agreement_tokens, String
+          array_of :billing_agreement_tokens, String
           object_of :potential_payer_info, PotentialPayerInfo
           object_of :credit_financing_offered, CreditFinancingOffered
           object_of :failure_reason, String
@@ -254,9 +254,6 @@ module PayPal::SDK
         include RequestDataType
       end
 
-
-
-
       class FuturePayment < Payment
 
         def create(correlation_id=nil)
@@ -264,7 +261,7 @@ module PayPal::SDK
           if correlation_id != nil
             header = http_header
             header = header.merge({
-              "PAYPAL-CLIENT-METADATA-ID" => correlation_id})
+                                      "PAYPAL-CLIENT-METADATA-ID" => correlation_id})
           end
           response = api.post(path, self.to_hash, http_header)
           self.merge!(response)
@@ -292,7 +289,7 @@ module PayPal::SDK
           object_of :status, String
           object_of :account_type, String
           object_of :account_age, String
-          array_of  :funding_instruments, FundingInstrument
+          array_of :funding_instruments, FundingInstrument
           object_of :funding_option_id, String
           object_of :funding_option, FundingOption
           object_of :related_funding_option, FundingOption
@@ -532,7 +529,7 @@ module PayPal::SDK
       class FundingOption < Base
         def self.load_members
           object_of :id, String
-          array_of  :funding_sources, FundingSource
+          array_of :funding_sources, FundingSource
           object_of :backup_funding_instrument, FundingInstrument
           object_of :currency_conversion, CurrencyConversion
           object_of :installment_info, InstallmentInfo
@@ -581,7 +578,7 @@ module PayPal::SDK
           object_of :installment_id, String
           object_of :network, String
           object_of :issuer, String
-          array_of  :installment_options, InstallmentOption
+          array_of :installment_options, InstallmentOption
         end
       end
 
@@ -638,7 +635,7 @@ module PayPal::SDK
 
       class AllOf < Base
         def self.load_members
-          array_of  :related_resources, RelatedResources
+          array_of :related_resources, RelatedResources
         end
       end
 
@@ -653,8 +650,8 @@ module PayPal::SDK
           object_of :item_list, ItemList
           object_of :notify_url, String
           object_of :purchase_unit_reference_id, String
-          array_of  :related_resources, RelatedResources
-          array_of  :transactions, Transaction
+          array_of :related_resources, RelatedResources
+          array_of :transactions, Transaction
           object_of :payment_options, PaymentOptions
         end
       end
@@ -734,8 +731,8 @@ module PayPal::SDK
           object_of :length, Measurement
           object_of :height, Measurement
           object_of :width, Measurement
-          array_of  :supplementary_data, NameValuePair
-          array_of  :postback_data, NameValuePair
+          array_of :supplementary_data, NameValuePair
+          array_of :postback_data, NameValuePair
         end
       end
 
@@ -755,7 +752,7 @@ module PayPal::SDK
 
       class ItemList < Base
         def self.load_members
-          array_of  :items, Item
+          array_of :items, Item
           object_of :shipping_address, ShippingAddress
           object_of :shipping_method, String
           object_of :shipping_phone_number, String
@@ -793,7 +790,7 @@ module PayPal::SDK
           object_of :parent_payment, String
           object_of :create_time, String
           object_of :update_time, String
-          array_of  :links, Links
+          array_of :links, Links
           object_of :processor_response, ProcessorResponse
           object_of :billing_agreement_id, String
           object_of :payment_hold_reasons, String
@@ -838,7 +835,7 @@ module PayPal::SDK
           object_of :valid_until, String
           object_of :create_time, String
           object_of :update_time, String
-          array_of  :links, Links
+          array_of :links, Links
         end
 
         include RequestDataType
@@ -890,7 +887,7 @@ module PayPal::SDK
           object_of :fmf_details, FmfDetails
           object_of :create_time, String
           object_of :update_time, String
-          array_of  :links, Links
+          array_of :links, Links
         end
 
         include RequestDataType
@@ -937,7 +934,7 @@ module PayPal::SDK
           object_of :create_time, String
           object_of :update_time, String
           object_of :invoice_number, String
-          array_of  :links, Links
+          array_of :links, Links
         end
 
         include RequestDataType
@@ -970,7 +967,7 @@ module PayPal::SDK
           object_of :description, String
           object_of :create_time, String
           object_of :update_time, String
-          array_of  :links, Links
+          array_of :links, Links
         end
 
         include RequestDataType
@@ -991,8 +988,8 @@ module PayPal::SDK
           object_of :message, String
           object_of :code, String
           object_of :information_link, String
-          array_of  :details, ErrorDetails
-          array_of  :links, Links
+          array_of :details, ErrorDetails
+          array_of :links, Links
         end
       end
 
@@ -1021,7 +1018,7 @@ module PayPal::SDK
           object_of :amount, Currency
           object_of :payment_due_date, String
           object_of :note, String
-          array_of  :links, Links
+          array_of :links, Links
         end
 
         include RequestDataType
@@ -1055,33 +1052,33 @@ module PayPal::SDK
 
       class Patch < Base
         def self.load_members
-              object_of :op, String
-              object_of :path, String
-              object_of :value, Object
-              object_of :from, String
+          object_of :op, String
+          object_of :path, String
+          object_of :value, Object
+          object_of :from, String
         end
       end
       class PatchRequest < Base
 
         def self.load_members
-              object_of :op, String
-              object_of :path, String
-              object_of :value, Object
-              object_of :from, String
+          object_of :op, String
+          object_of :path, String
+          object_of :value, Object
+          object_of :from, String
         end
 
       end
       class PaymentExecution < Base
         def self.load_members
           object_of :payer_id, String
-          array_of  :transactions, CartBase
+          array_of :transactions, CartBase
           object_of :carrier_account_id, String
         end
       end
 
       class PaymentHistory < Base
         def self.load_members
-          array_of  :payments, Payment
+          array_of :payments, Payment
           object_of :count, Integer
           object_of :next_id, String
         end
@@ -1089,7 +1086,7 @@ module PayPal::SDK
 
       class CreditCardList < Base
         def self.load_members
-          array_of  :items, CreditCard
+          array_of :items, CreditCard
           object_of :total_items, Integer
           object_of :total_pages, Integer
           array_of :links, Links
@@ -1107,7 +1104,7 @@ module PayPal::SDK
 
       class BankAccountsList < Base
         def self.load_members
-          array_of  :bank_accounts, BankAccount
+          array_of :bank_accounts, BankAccount
           object_of :count, Integer
           object_of :next_id, String
         end
@@ -1122,39 +1119,39 @@ module PayPal::SDK
       class Invoice < Base
         def self.load_members
           object_of :id, String
-	      object_of :number, String
-	      object_of :template_id, String
-	      object_of :uri, String
-	      object_of :status, String
-	      object_of :merchant_info, MerchantInfo
-	      array_of  :billing_info, BillingInfo
-	      array_of  :cc_info, Participant
-	      object_of :shipping_info, ShippingInfo
-	      array_of  :items, InvoiceItem
-	      object_of :invoice_date, String
-	      object_of :payment_term, PaymentTerm
-	      object_of :reference, String
-	      object_of :discount, Cost
-	      object_of :shipping_cost, ShippingCost
-	      object_of :custom, CustomAmount
-	      object_of :allow_partial_payment, Boolean
-	      object_of :minimum_amount_due, Currency
-	      object_of :tax_calculated_after_discount, Boolean
-	      object_of :tax_inclusive, Boolean
-	      object_of :terms, String
-	      object_of :note, String
-	      object_of :merchant_memo, String
-	      object_of :logo_url, String
-	      object_of :total_amount, Currency
-          array_of  :payments, PaymentDetail
-          array_of  :refunds, RefundDetail
-	      object_of :metadata, Metadata
-	      object_of :additional_data, String
-	      object_of :gratuity, Currency
-	      object_of :paid_amount, PaymentSummary
-	      object_of :refunded_amount, PaymentSummary
-          array_of  :attachments, FileAttachment
-          array_of  :links, Links
+          object_of :number, String
+          object_of :template_id, String
+          object_of :uri, String
+          object_of :status, String
+          object_of :merchant_info, MerchantInfo
+          array_of :billing_info, BillingInfo
+          array_of :cc_info, Participant
+          object_of :shipping_info, ShippingInfo
+          array_of :items, InvoiceItem
+          object_of :invoice_date, String
+          object_of :payment_term, PaymentTerm
+          object_of :reference, String
+          object_of :discount, Cost
+          object_of :shipping_cost, ShippingCost
+          object_of :custom, CustomAmount
+          object_of :allow_partial_payment, Boolean
+          object_of :minimum_amount_due, Currency
+          object_of :tax_calculated_after_discount, Boolean
+          object_of :tax_inclusive, Boolean
+          object_of :terms, String
+          object_of :note, String
+          object_of :merchant_memo, String
+          object_of :logo_url, String
+          object_of :total_amount, Currency
+          array_of :payments, PaymentDetail
+          array_of :refunds, RefundDetail
+          object_of :metadata, Metadata
+          object_of :additional_data, String
+          object_of :gratuity, Currency
+          object_of :paid_amount, PaymentSummary
+          object_of :refunded_amount, PaymentSummary
+          array_of :attachments, FileAttachment
+          array_of :links, Links
         end
 
         include RequestDataType
@@ -1259,29 +1256,29 @@ module PayPal::SDK
 
       class Participant < Base
         def self.load_members
-	            object_of :email, String
-	            object_of :first_name, String
-	            object_of :last_name, String
-	            object_of :business_name, String
-	            object_of :phone, Phone
-	            object_of :fax, Phone
-	            object_of :website, String
-	            object_of :additional_info, String
-	            object_of :address, Address
+          object_of :email, String
+          object_of :first_name, String
+          object_of :last_name, String
+          object_of :business_name, String
+          object_of :phone, Phone
+          object_of :fax, Phone
+          object_of :website, String
+          object_of :additional_info, String
+          object_of :address, Address
         end
       end
 
       class Template < Base
 
         def self.load_members
-	            object_of :template_id, String
-	            object_of :name, String
-	            object_of :default, Boolean
-	            object_of :template_data, TemplateData
-	            array_of  :settings, TemplateSettings
-	            object_of :unit_of_measure, String
-	            object_of :custom, Boolean
-	            array_of  :links, Links
+          object_of :template_id, String
+          object_of :name, String
+          object_of :default, Boolean
+          object_of :template_data, TemplateData
+          array_of :settings, TemplateSettings
+          object_of :unit_of_measure, String
+          object_of :custom, Boolean
+          array_of :links, Links
         end
 
         include RequestDataType
@@ -1301,10 +1298,10 @@ module PayPal::SDK
         end
 
         def create()
-            path = "v1/invoicing/templates"
-            response = api.post(path, self.to_hash, http_header)
-            self.merge!(response)
-            Template.new(response)
+          path = "v1/invoicing/templates"
+          response = api.post(path, self.to_hash, http_header)
+          self.merge!(response)
+          Template.new(response)
         end
 
         class << self
@@ -1319,26 +1316,26 @@ module PayPal::SDK
       class TemplateData < Base
 
         def self.load_members
-	            object_of :merchant_info, MerchantInfo
-	            array_of  :billing_info, BillingInfo
-	            array_of  :cc_info, String
-	            object_of :shipping_info, ShippingInfo
-	            array_of  :items, InvoiceItem
-	            object_of :payment_term, PaymentTerm
-	            object_of :reference, String
-	            object_of :discount, Cost
-	            object_of :shipping_cost, ShippingCost
-	            object_of :custom, CustomAmount
-	            object_of :allow_partial_payment, Boolean
-	            object_of :minimum_amount_due, Currency
-	            object_of :tax_calculated_after_discount, Boolean
-	            object_of :tax_inclusive, Boolean
-	            object_of :terms, String
-	            object_of :note, String
-	            object_of :merchant_memo, String
-	            object_of :logo_url, String
-	            object_of :total_amount, Currency
-	            array_of  :attachments, FileAttachment
+          object_of :merchant_info, MerchantInfo
+          array_of :billing_info, BillingInfo
+          array_of :cc_info, String
+          object_of :shipping_info, ShippingInfo
+          array_of :items, InvoiceItem
+          object_of :payment_term, PaymentTerm
+          object_of :reference, String
+          object_of :discount, Cost
+          object_of :shipping_cost, ShippingCost
+          object_of :custom, CustomAmount
+          object_of :allow_partial_payment, Boolean
+          object_of :minimum_amount_due, Currency
+          object_of :tax_calculated_after_discount, Boolean
+          object_of :tax_inclusive, Boolean
+          object_of :terms, String
+          object_of :note, String
+          object_of :merchant_memo, String
+          object_of :logo_url, String
+          object_of :total_amount, Currency
+          array_of :attachments, FileAttachment
         end
 
       end
@@ -1346,41 +1343,41 @@ module PayPal::SDK
       class TemplateSettings < Base
 
         def self.load_members
-	            object_of :field_name, String
-	            object_of :display_preference, TemplateSettingsMetadata
+          object_of :field_name, String
+          object_of :display_preference, TemplateSettingsMetadata
         end
       end
 
       class TemplateSettingsMetadata < Base
 
         def self.load_members
-	            object_of :hidden, Boolean
+          object_of :hidden, Boolean
         end
 
       end
 
       class PaymentSummary < Base
         def self.load_members
-	            object_of :paypal, Currency
-	            object_of :other, Currency
+          object_of :paypal, Currency
+          object_of :other, Currency
         end
       end
       class FileAttachment < Base
 
         def self.load_members
-	            object_of :name, String
-	            object_of :url, String
+          object_of :name, String
+          object_of :url, String
         end
 
       end
       class Templates < Base
 
         def self.load_members
-	          array_of  :addresses, Address
-	          array_of  :emails, String
-	          array_of  :phones, Phone
-	          array_of  :templates, Template
-	          array_of  :links, Links
+          array_of :addresses, Address
+          array_of :emails, String
+          array_of :phones, Phone
+          array_of :templates, Template
+          array_of :links, Links
         end
 
         include RequestDataType
@@ -1411,13 +1408,13 @@ module PayPal::SDK
 
       class EventTypeList < Base
         def self.load_members
-          array_of  :event_types, EventType
+          array_of :event_types, EventType
         end
       end
 
       class WebhookList < Base
         def self.load_members
-          array_of  :webhooks, Webhook
+          array_of :webhooks, Webhook
         end
       end
 
@@ -1431,7 +1428,7 @@ module PayPal::SDK
       class WebhookEventList < Base
         def self.load_members
           object_of :count, Integer
-          array_of  :events, WebhookEvent
+          array_of :events, WebhookEvent
           array_of :links, Links
         end
       end
@@ -1489,7 +1486,7 @@ module PayPal::SDK
           end
 
           def verify_common_name(cert)
-            common_name = cert.subject.to_a.select{|name, _, _| name == 'CN' }.first[1]
+            common_name = cert.subject.to_a.select { |name, _, _| name == 'CN' }.first[1]
 
             common_name.start_with?("messageverificationcerts.") && common_name.end_with?(".paypal.com")
           end
@@ -1524,7 +1521,7 @@ module PayPal::SDK
           end
 
           def get_resource_class(name)
-            class_array = PayPal::SDK::REST.constants.select {|c| Class === PayPal::SDK::REST.const_get(c)}
+            class_array = PayPal::SDK::REST.constants.select { |c| Class === PayPal::SDK::REST.const_get(c) }
             class_array.each do |classname|
               if (classname.to_s.downcase == name.downcase)
                 return classname
@@ -1534,7 +1531,7 @@ module PayPal::SDK
 
           def search(page_size, start_time, end_time)
             path = "v1/notifications/webhooks-events"
-            options = { :page_size => page_size, :start_time => start_time, :end_time => end_time }
+            options = {:page_size => page_size, :start_time => start_time, :end_time => end_time}
             WebhookEventList.new(api.get(path, options))
           end
 
@@ -1588,11 +1585,13 @@ module PayPal::SDK
             path = "v1/notifications/webhooks/#{webhook_id}"
             Webhook.new(api.get(path))
           end
+
           def get_event_types(webhook_id)
             raise ArgumentError.new("webhook_id required") if webhook_id.to_s.strip.empty?
             path = "v1/notifications/webhooks/#{webhook_id}/event-types"
             EventTypeList.new(api.get(path))
           end
+
           def all(options={})
             path = "v1/notifications/webhooks"
             WebhookList.new(api.get(path))
@@ -1600,7 +1599,7 @@ module PayPal::SDK
 
           def simulate_event(webhook_id, url, event_type)
             path = "v1/notifications/simulate-event"
-            options = { :webhook_id => webhook_id, :url => url, :event_type => event_type }
+            options = {:webhook_id => webhook_id, :url => url, :event_type => event_type}
             response = api.post(path, options)
             WebhookEvent.new(response)
           end
@@ -1610,15 +1609,15 @@ module PayPal::SDK
       class Payout < Base
 
         def self.load_members
-            object_of :sender_batch_header, PayoutSenderBatchHeader
-            array_of  :items, PayoutItem
+          object_of :sender_batch_header, PayoutSenderBatchHeader
+          array_of :items, PayoutItem
         end
 
         include RequestDataType
 
         def create(sync_mode = false)
           path = "v1/payments/payouts"
-          options = { :sync_mode => sync_mode }
+          options = {:sync_mode => sync_mode}
           response = api.post(path, self.to_hash, http_header, options)
           PayoutBatch.new(response)
         end
@@ -1634,11 +1633,11 @@ module PayPal::SDK
       class PayoutItem < Base
 
         def self.load_members
-              object_of :recipient_type, String
-              object_of :amount, Currency
-              object_of :note, String
-              object_of :receiver, String
-              object_of :sender_item_id, String
+          object_of :recipient_type, String
+          object_of :amount, Currency
+          object_of :note, String
+          object_of :receiver, String
+          object_of :sender_item_id, String
         end
 
         include RequestDataType
@@ -1649,6 +1648,7 @@ module PayPal::SDK
             path = "v1/payments/payouts-item/#{payout_item_id}"
             PayoutItemDetails.new(api.get(path))
           end
+
           def cancel(payout_item_id)
             raise ArgumentError.new("payout_item_id required") if payout_item_id.to_s.strip.empty?
             path = "v1/payments/payouts-item/#{payout_item_id}/cancel"
@@ -1660,85 +1660,85 @@ module PayPal::SDK
       class PayoutItemDetails < Base
 
         def self.load_members
-              object_of :payout_item_id, String
-              object_of :transaction_id, String
-              object_of :transaction_status, String
-              object_of :payout_item_fee, Currency
-              object_of :payout_batch_id, String
-              object_of :sender_batch_id, String
-              object_of :payout_item, PayoutItem
-              object_of :time_processed, String
-              object_of :errors, Error
-              array_of  :links, Links
+          object_of :payout_item_id, String
+          object_of :transaction_id, String
+          object_of :transaction_status, String
+          object_of :payout_item_fee, Currency
+          object_of :payout_batch_id, String
+          object_of :sender_batch_id, String
+          object_of :payout_item, PayoutItem
+          object_of :time_processed, String
+          object_of :errors, Error
+          array_of :links, Links
         end
 
       end
       class PayoutBatch < Base
 
         def self.load_members
-            object_of :batch_header, PayoutBatchHeader
-            array_of  :items, PayoutItemDetails
-            array_of  :links, Links
+          object_of :batch_header, PayoutBatchHeader
+          array_of :items, PayoutItemDetails
+          array_of :links, Links
         end
 
       end
       class PayoutBatchHeader < Base
 
         def self.load_members
-              object_of :payout_batch_id, String
-              object_of :batch_status, String
-              object_of :time_created, String
-              object_of :time_completed, String
-              object_of :sender_batch_header, PayoutSenderBatchHeader
-              object_of :amount, Currency
-              object_of :fees, Currency
-              object_of :errors, Error
+          object_of :payout_batch_id, String
+          object_of :batch_status, String
+          object_of :time_created, String
+          object_of :time_completed, String
+          object_of :sender_batch_header, PayoutSenderBatchHeader
+          object_of :amount, Currency
+          object_of :fees, Currency
+          object_of :errors, Error
         end
 
       end
       class PayoutSenderBatchHeader < Base
 
         def self.load_members
-              object_of :sender_batch_id, String
-              object_of :email_subject, String
-              object_of :recipient_type, String
+          object_of :sender_batch_id, String
+          object_of :email_subject, String
+          object_of :recipient_type, String
         end
 
       end
       class Invoices < Base
         def self.load_members
           object_of :total_count, Integer
-          array_of  :invoices, Invoice
+          array_of :invoices, Invoice
         end
       end
 
       class InvoiceItem < Base
         def self.load_members
-	        object_of :name, String
-	        object_of :description, String
-	        object_of :quantity, Number
-	        object_of :unit_price, Currency
-	        object_of :tax, Tax
-	        object_of :date, String
-	        object_of :discount, Cost
-	        object_of :image_url, String
-	        object_of :unit_of_measure, String
+          object_of :name, String
+          object_of :description, String
+          object_of :quantity, Number
+          object_of :unit_price, Currency
+          object_of :tax, Tax
+          object_of :date, String
+          object_of :discount, Cost
+          object_of :image_url, String
+          object_of :unit_of_measure, String
         end
       end
 
       class MerchantInfo < Base
         def self.load_members
-	        object_of :email, String
-	        object_of :first_name, String
-	        object_of :last_name, String
-	        object_of :address, Address
-	        object_of :business_name, String
-	        object_of :phone, Phone
-	        object_of :fax, Phone
-	        object_of :website, String
-	        object_of :tax_id, String
-	        object_of :additional_info_label, String
-	        object_of :additional_info, String
+          object_of :email, String
+          object_of :first_name, String
+          object_of :last_name, String
+          object_of :address, Address
+          object_of :business_name, String
+          object_of :phone, Phone
+          object_of :fax, Phone
+          object_of :website, String
+          object_of :tax_id, String
+          object_of :additional_info_label, String
+          object_of :additional_info, String
         end
       end
 
@@ -1771,7 +1771,7 @@ module PayPal::SDK
           object_of :subject, String
           object_of :note, String
           object_of :send_to_merchant, Boolean
-          array_of  :cc_emails, String
+          array_of :cc_emails, String
         end
       end
 
@@ -1954,10 +1954,10 @@ module PayPal::SDK
           object_of :state, String
           object_of :create_time, String
           object_of :update_time, String
-          array_of  :payment_definitions, PaymentDefinition
-          array_of  :terms, Terms
+          array_of :payment_definitions, PaymentDefinition
+          array_of :terms, Terms
           object_of :merchant_preferences, MerchantPreferences
-          array_of  :links, Links
+          array_of :links, Links
         end
 
         include RequestDataType
@@ -2003,7 +2003,7 @@ module PayPal::SDK
           object_of :frequency, String
           object_of :cycles, String
           object_of :amount, Currency
-          array_of  :charge_models, ChargeModels
+          array_of :charge_models, ChargeModels
         end
       end
 
@@ -2072,7 +2072,7 @@ module PayPal::SDK
           object_of :pattern, String
           object_of :minLength, Integer
           object_of :maxLength, Integer
-          array_of  :enum, Array
+          array_of :enum, Array
           object_of :title, String
           object_of :description, String
           object_of :format, String
@@ -2087,7 +2087,7 @@ module PayPal::SDK
 
       class HyperSchema < Schema
         def self.load_members
-          array_of  :links, Links
+          array_of :links, Links
           object_of :fragmentResolution, String
           object_of :readonly, Boolean
           object_of :contentEncoding, String
@@ -2098,30 +2098,30 @@ module PayPal::SDK
 
       class PlanList < Base
         def self.load_members
-          array_of  :plans, Plan
+          array_of :plans, Plan
           object_of :total_items, String
           object_of :total_pages, String
-          array_of  :links, Links
+          array_of :links, Links
         end
       end
 
       class Agreement < Base
         def self.load_members
-              object_of :id, String
-              object_of :state, String
-              object_of :name, String
-              object_of :description, String
-              object_of :start_date, String
-              object_of :agreement_details, AgreementDetails
-              object_of :payer, Payer
-              object_of :shipping_address, Address
-              object_of :override_merchant_preferences, MerchantPreferences
-            array_of  :override_charge_models, OverrideChargeModel
-              object_of :plan, Plan
-              object_of :create_time, String
-              object_of :update_time, String
-            array_of  :links, Links
-              object_of :token, String
+          object_of :id, String
+          object_of :state, String
+          object_of :name, String
+          object_of :description, String
+          object_of :start_date, String
+          object_of :agreement_details, AgreementDetails
+          object_of :payer, Payer
+          object_of :shipping_address, Address
+          object_of :override_merchant_preferences, MerchantPreferences
+          array_of :override_charge_models, OverrideChargeModel
+          object_of :plan, Plan
+          object_of :create_time, String
+          object_of :update_time, String
+          array_of :links, Links
+          object_of :token, String
         end
 
         include RequestDataType
@@ -2203,7 +2203,7 @@ module PayPal::SDK
         class << self
           def transactions(agreement_id, start_date, end_date, options = {})
             path = "v1/payments/billing-agreements/#{agreement_id}/transactions" #?start-date=#{start_date}&end-date=#{end_date}"
-            options = { :start_date => start_date, :end_date => end_date }
+            options = {:start_date => start_date, :end_date => end_date}
             AgreementTransactions.new(api.get(path, options))
           end
         end
@@ -2248,7 +2248,7 @@ module PayPal::SDK
 
       class AgreementTransactions < Base
         def self.load_members
-          array_of  :agreement_transaction_list, AgreementTransaction
+          array_of :agreement_transaction_list, AgreementTransaction
         end
       end
 

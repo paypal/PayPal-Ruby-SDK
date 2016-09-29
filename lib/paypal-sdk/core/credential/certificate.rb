@@ -18,7 +18,7 @@ module PayPal::SDK::Core
 
       # Return SSL certificate key
       def key
-        @key  = OpenSSL::PKey::RSA.new(cert_content)
+        @key = OpenSSL::PKey::RSA.new(cert_content)
       end
 
       private

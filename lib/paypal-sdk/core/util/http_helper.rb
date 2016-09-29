@@ -64,16 +64,16 @@ module PayPal::SDK::Core
       # * payload - Hash(:http, :method, :uri, :body, :header)
       def http_call(payload)
         response =
-          log_http_call(payload) do
-            http = payload[:http] || create_http_connection(payload[:uri])
-            http.start do |session|
-              if [ :get, :delete, :head ].include? payload[:method]
-                session.send(payload[:method], payload[:uri].request_uri, payload[:header])
-              else
-                session.send(payload[:method], payload[:uri].request_uri, payload[:body], payload[:header])
+            log_http_call(payload) do
+              http = payload[:http] || create_http_connection(payload[:uri])
+              http.start do |session|
+                if [:get, :delete, :head].include? payload[:method]
+                  session.send(payload[:method], payload[:uri].request_uri, payload[:header])
+                else
+                  session.send(payload[:method], payload[:uri].request_uri, payload[:body], payload[:header])
+                end
               end
             end
-          end
 
         handle_response(response)
       end
@@ -88,11 +88,11 @@ module PayPal::SDK::Core
         start_time = Time.now
         response = yield
         logger.info sprintf("Response[%s]: %s, Duration: %.3fs", response.code,
-          response.message, Time.now - start_time)
+                            response.message, Time.now - start_time)
 
         logger.add(
-          response_details_log_level(response),
-          "Response.body=#{response.body}\tResponse.header=#{response.to_hash}"
+            response_details_log_level(response),
+            "Response.body=#{response.body}\tResponse.header=#{response.to_hash}"
         )
 
         response
@@ -120,7 +120,7 @@ module PayPal::SDK::Core
         if defined? URI.encode_www_form
           URI.encode_www_form(hash)
         else
-          hash.map{|key, value| "#{CGI.escape(key.to_s)}=#{CGI.escape(value.to_s)}" }.join("&")
+          hash.map { |key, value| "#{CGI.escape(key.to_s)}=#{CGI.escape(value.to_s)}" }.join("&")
         end
       end
 

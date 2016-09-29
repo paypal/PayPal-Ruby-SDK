@@ -24,9 +24,9 @@ module PayPal::SDK::Core
 
       def oauth_signature
         key = [
-          paypal_encode(password),
-          paypal_encode(token_secret),
-        ].join("&").gsub(/%[0-9A-F][0-9A-F]/, &:downcase )
+            paypal_encode(password),
+            paypal_encode(token_secret),
+        ].join("&").gsub(/%[0-9A-F][0-9A-F]/, &:downcase)
 
         digest = OpenSSL::HMAC.digest('sha1', key, base_string)
         Base64.encode64(digest).chomp
@@ -34,20 +34,20 @@ module PayPal::SDK::Core
 
       def base_string
         params = {
-          "oauth_consumer_key" => username,
-          "oauth_version" => "1.0",
-          "oauth_signature_method" => "HMAC-SHA1",
-          "oauth_token" => token,
-          "oauth_timestamp" => timestamp,
+            "oauth_consumer_key" => username,
+            "oauth_version" => "1.0",
+            "oauth_signature_method" => "HMAC-SHA1",
+            "oauth_token" => token,
+            "oauth_timestamp" => timestamp,
         }
-        sorted_query_string = params.sort.map{|v| v.join("=") }.join("&")
+        sorted_query_string = params.sort.map { |v| v.join("=") }.join("&")
 
         base = [
-          "POST",
-          paypal_encode(url),
-          paypal_encode(sorted_query_string)
+            "POST",
+            paypal_encode(url),
+            paypal_encode(sorted_query_string)
         ].join("&")
-        base = base.gsub(/%[0-9A-F][0-9A-F]/, &:downcase )
+        base = base.gsub(/%[0-9A-F][0-9A-F]/, &:downcase)
       end
 
       # The PayPalURLEncoder java class percent encodes everything other than 'a-zA-Z0-9 _'.

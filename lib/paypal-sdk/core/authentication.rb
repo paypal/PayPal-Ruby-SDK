@@ -1,4 +1,3 @@
-
 module PayPal::SDK::Core
 
   # Contains methods to format credentials for HTTP protocol.
@@ -23,11 +22,11 @@ module PayPal::SDK::Core
     # Get base credential
     def base_credential
       @base_credential ||=
-        if config.cert_path
-          Credential::Certificate.new(config)
-        else
-          Credential::Signature.new(config)
-        end
+          if config.cert_path
+            Credential::Certificate.new(config)
+          else
+            Credential::Signature.new(config)
+          end
     end
 
     # Get base credential type
@@ -56,10 +55,10 @@ module PayPal::SDK::Core
     def add_certificate(http)
       if base_credential.is_a? Credential::Certificate
         http.cert = base_credential.cert
-        http.key  = base_credential.key
+        http.key = base_credential.key
       else
         http.cert = nil
-        http.key  = nil
+        http.key = nil
       end
     end
   end

@@ -8,7 +8,7 @@ module PayPal::SDK::Core
       #   ary.merge!(["1", "3"])  # [ 123, 1, 3 ]
       class ArrayWithBlock < ::Array
         def initialize(&block)
-          @block   = block
+          @block = block
           super()
         end
 

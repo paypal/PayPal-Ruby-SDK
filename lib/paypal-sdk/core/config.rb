@@ -32,18 +32,18 @@ module PayPal::SDK::Core
     #   obj.set_config(:development, :http_timeout => 30)
     def set_config(env, override_configurations = {})
       @config =
-        case env
-        when Config
-          env
-        when Hash
-          begin
-            config.dup.merge!(env)
-          rescue Errno::ENOENT => error
-            Config.new(env)
+          case env
+            when Config
+              env
+            when Hash
+              begin
+                config.dup.merge!(env)
+              rescue Errno::ENOENT => error
+                Config.new(env)
+              end
+            else
+              Config.config(env, override_configurations)
           end
-        else
-          Config.config(env, override_configurations)
-        end
     end
 
     alias_method :config=, :set_config
@@ -69,13 +69,13 @@ module PayPal::SDK::Core
     include Exceptions
 
     attr_accessor :username, :password, :signature, :app_id, :cert_path,
-        :token, :token_secret, :subject,
-        :http_timeout, :http_proxy,
-        :device_ipaddress, :sandbox_email_address,
-        :mode, :endpoint, :merchant_endpoint, :platform_endpoint, :ipn_endpoint,
-        :rest_endpoint, :rest_token_endpoint, :client_id, :client_secret,
-        :openid_endpoint, :openid_redirect_uri, :openid_client_id, :openid_client_secret,
-        :verbose_logging
+                  :token, :token_secret, :subject,
+                  :http_timeout, :http_proxy,
+                  :device_ipaddress, :sandbox_email_address,
+                  :mode, :endpoint, :merchant_endpoint, :platform_endpoint, :ipn_endpoint,
+                  :rest_endpoint, :rest_token_endpoint, :client_id, :client_secret,
+                  :openid_endpoint, :openid_redirect_uri, :openid_client_id, :openid_client_secret,
+                  :verbose_logging
 
     alias_method :end_point=, :endpoint=
     alias_method :end_point, :endpoint
@@ -118,18 +118,18 @@ module PayPal::SDK::Core
     end
 
     def ssl_options=(options)
-      options = Hash[options.map{|key, value| [key.to_sym, value] }]
+      options = Hash[options.map { |key, value| [key.to_sym, value] }]
       @ssl_options = ssl_options.merge(options).freeze
     end
 
     def ca_file=(ca_file)
       logger.warn '`ca_file=` is deprecated, Please configure `ca_file=` under `ssl_options`'
-      self.ssl_options = { :ca_file => ca_file }
+      self.ssl_options = {:ca_file => ca_file}
     end
 
     def http_verify_mode=(verify_mode)
       logger.warn '`http_verify_mode=` is deprecated, Please configure `verify_mode=` under `ssl_options`'
-      self.ssl_options = { :verify_mode => verify_mode }
+      self.ssl_options = {:verify_mode => verify_mode}
     end
 
     # Override configurations
@@ -142,7 +142,7 @@ module PayPal::SDK::Core
 
     # Validate required configuration
     def required!(*names)
-      names = names.select{|name| send(name).nil? }
+      names = names.select { |name| send(name).nil? }
       raise MissingConfig.new("Required configuration(#{names.join(", ")})") if names.any?
     end
 
@@ -157,8 +157,8 @@ module PayPal::SDK::Core
       # === Example
       #   Config.load('config/paypal.yml', 'development')
       def load(file_name, default_env = default_environment)
-        @@config_cache        = {}
-        @@configurations      = read_configurations(file_name)
+        @@config_cache = {}
+        @@configurations = read_configurations(file_name)
         @@default_environment = default_env
         config
       end
@@ -177,11 +177,12 @@ module PayPal::SDK::Core
         begin
           self.config.merge!(options)
         rescue Errno::ENOENT
-          self.configurations = { default_environment => options }
+          self.configurations = {default_environment => options}
         end
         block.call(self.config) if block
         self.config
       end
+
       alias_method :set_config, :configure
 
       # Create or Load Config object based on given environment and configurations.
@@ -234,8 +235,8 @@ module PayPal::SDK::Core
 
       # Set configuration
       def configurations=(configs)
-        @@config_cache   = {}
-        @@configurations = configs && Hash[configs.map{|k,v| [k.to_s, v] }]
+        @@config_cache = {}
+        @@configurations = configs && Hash[configs.map { |k, v| [k.to_s, v] }]
       end
 
       private

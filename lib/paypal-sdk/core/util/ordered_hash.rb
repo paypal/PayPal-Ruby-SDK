@@ -96,7 +96,7 @@ module PayPal::SDK::Core
         end
 
         def to_a
-          @keys.map { |key| [ key, self[key] ] }
+          @keys.map { |key| [key, self[key]] }
         end
 
         def each_key
@@ -104,11 +104,11 @@ module PayPal::SDK::Core
         end
 
         def each_value
-          @keys.each { |key| yield self[key]}
+          @keys.each { |key| yield self[key] }
         end
 
         def each
-          @keys.each {|key| yield [key, self[key]]}
+          @keys.each { |key| yield [key, self[key]] }
         end
 
         alias_method :each_pair, :each
@@ -148,7 +148,7 @@ module PayPal::SDK::Core
         end
 
         def invert
-          OrderedHash[self.to_a.map!{|key_value_pair| key_value_pair.reverse}]
+          OrderedHash[self.to_a.map! { |key_value_pair| key_value_pair.reverse }]
         end
 
         def inspect
@@ -156,9 +156,9 @@ module PayPal::SDK::Core
         end
 
         private
-          def sync_keys!
-            @keys.delete_if {|k| !has_key?(k)}
-          end
+        def sync_keys!
+          @keys.delete_if { |k| !has_key?(k) }
+        end
       end
     end
   end

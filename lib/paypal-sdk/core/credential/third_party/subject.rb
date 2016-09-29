@@ -10,13 +10,13 @@ module PayPal::SDK::Core
         # * <tt>credential</tt> -- Credential object
         # * <tt>config</tt> -- Configuration object
         def initialize(credential, config)
-          @credential   = credential
-          @subject      = config.subject
+          @credential = credential
+          @subject = config.subject
         end
 
         # Return properties for authentication.
         def properties
-          credential.properties.merge( :subject => subject )
+          credential.properties.merge(:subject => subject)
         end
 
       end

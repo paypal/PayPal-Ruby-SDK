@@ -14,7 +14,7 @@ module PayPal::SDK::Core
 
       # Return properties for authentication
       def properties
-        super.merge({ :signature => signature })
+        super.merge({:signature => signature})
       end
 
     end

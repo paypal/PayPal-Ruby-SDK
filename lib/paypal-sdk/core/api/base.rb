@@ -13,8 +13,8 @@ module PayPal::SDK::Core
 
       attr_accessor :http, :uri, :service_name
 
-      DEFAULT_API_MODE    = :sandbox
-      API_MODES           = [ :live, :sandbox ]
+      DEFAULT_API_MODE = :sandbox
+      API_MODES = [:live, :sandbox]
 
       # Initialize API object
       # === Argument
@@ -35,11 +35,11 @@ module PayPal::SDK::Core
 
       def uri
         @uri ||=
-          begin
-            uri = URI.parse("#{service_endpoint}/#{service_name}")
-            uri.path = uri.path.gsub(/\/+/, "/")
-            uri
-          end
+            begin
+              uri = URI.parse("#{service_endpoint}/#{service_name}")
+              uri.path = uri.path.gsub(/\/+/, "/")
+              uri
+            end
       end
 
       def http
@@ -68,7 +68,7 @@ module PayPal::SDK::Core
 
       # Default Http header
       def default_http_header
-        { "User-Agent" => self.class.user_agent }
+        {"User-Agent" => self.class.user_agent}
       end
 
       # Generate HTTP request for given action and parameters
@@ -79,8 +79,8 @@ module PayPal::SDK::Core
       # * <tt>initheader</tt> -- (Optional) HTTP header
       def api_call(payload)
         payload[:header] = default_http_header.merge(payload[:header])
-        payload[:uri]   ||= uri.dup
-        payload[:http]  ||= http.dup
+        payload[:uri] ||= uri.dup
+        payload[:http] ||= http.dup
         payload[:uri].query = encode_www_form(payload[:query]) if payload[:query] and payload[:query].any?
         format_request(payload)
         payload[:response] = http_call(payload)
@@ -97,6 +97,7 @@ module PayPal::SDK::Core
         action, params, header = "", action, params if action.is_a? Hash
         api_call(:method => :post, :action => action, :query => query, :params => params, :header => header)
       end
+
       alias_method :request, :post
 
       def get(action, params = {}, header = {})

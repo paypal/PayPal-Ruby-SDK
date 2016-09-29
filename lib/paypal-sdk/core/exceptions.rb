@@ -8,7 +8,7 @@ module PayPal::SDK::Core
 
       def initialize(response, message = nil)
         @response = response
-        @message  = message
+        @message = message
       end
 
       def to_s
@@ -32,7 +32,10 @@ module PayPal::SDK::Core
       def initialize(message)
         @message = message
       end
-      def to_s; @message ;end
+
+      def to_s;
+        @message;
+      end
     end
 
     # Raised when a OpenSSL::SSL::SSLError occurs.
@@ -40,7 +43,10 @@ module PayPal::SDK::Core
       def initialize(message)
         @message = message
       end
-      def to_s; @message ;end
+
+      def to_s;
+        @message;
+      end
     end
 
     # 3xx Redirection

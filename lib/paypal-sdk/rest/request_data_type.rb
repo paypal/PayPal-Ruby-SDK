@@ -10,11 +10,11 @@ module PayPal
         # Convert Hash object to ErrorHash object
         def error=(hash)
           @error =
-            if hash.is_a? Hash
-              ErrorHash.convert(hash)
-            else
-              hash
-            end
+              if hash.is_a? Hash
+                ErrorHash.convert(hash)
+              else
+                hash
+              end
         end
 
         class << self
