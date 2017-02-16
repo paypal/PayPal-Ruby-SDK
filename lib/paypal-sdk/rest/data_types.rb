@@ -937,6 +937,12 @@ module PayPal::SDK
           Authorization.new(response)
         end
 
+        def authorize(amount, currency)
+          path = "v1/payments/orders/#{self.id}/authorize"
+          response = api.post(path, self.to_hash.merge(amount: {total: amount.to_s, currency: currency} ), http_header)
+          Authorization.new(response)
+        end
+
         raise_on_api_error :capture, :void, :authorize
       end
 
