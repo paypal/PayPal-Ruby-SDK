@@ -75,6 +75,7 @@ module PayPal::SDK
           object_of :potential_payer_info, PotentialPayerInfo
           object_of :credit_financing_offered, CreditFinancingOffered
           object_of :failure_reason, String
+          array_of :billing_plan_units, BillingPlanUnit
         end
 
         include RequestDataType
@@ -178,6 +179,14 @@ module PayPal::SDK
 
       class BillingAgreementToken < Base
         def self.load_members
+        end
+
+        include RequestDataType
+      end
+
+      class BillingPlanUnit < Base
+        def self.load_members
+          object_of :billing_plan_approved, Boolean
         end
 
         include RequestDataType

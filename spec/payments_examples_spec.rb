@@ -179,6 +179,16 @@ describe "Payments" do
         expect(payment.error).to be_nil
       end
 
+      it "Find before execute" do
+        payment = Payment.new(PaymentAttributesPayPal)
+        # Create
+        payment.create
+        expect(payment.id).not_to be_nil
+
+        payment = Payment.find(payment.id)
+        expect(payment.error).to be_nil
+      end
+
       describe "Validation", :integration => true do
 
         it "Create with empty values" do
