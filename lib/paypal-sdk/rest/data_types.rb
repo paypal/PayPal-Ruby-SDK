@@ -63,6 +63,7 @@ module PayPal::SDK
           array_of  :failed_transactions, Error
           object_of :payment_instruction, PaymentInstruction
           object_of :state, String
+          object_of :billing_plan_units, String
           object_of :experience_profile_id, String
           object_of :note_to_payer, String
           object_of :redirect_urls, RedirectUrls
