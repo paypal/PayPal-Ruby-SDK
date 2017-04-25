@@ -1549,6 +1549,7 @@ module PayPal::SDK
           def verify_signature(transmission_id, timestamp, webhook_id, event_body, cert, actual_sig_encoded, algo)
             expected_sig = get_expected_sig(transmission_id, timestamp, webhook_id, event_body)
 
+            algo = algo.sub(/withRSA/i, "")
             digest = OpenSSL::Digest.new(algo)
             digest.update(expected_sig)
             actual_sig = Base64.decode64(actual_sig_encoded).force_encoding('UTF-8')
