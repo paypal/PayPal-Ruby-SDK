@@ -129,7 +129,7 @@ module PayPal::SDK::Core
         case response.code.to_i
           when 301, 302, 303, 307
             raise(Redirection.new(response))
-          when 200...400
+          when 200...399
             response
           when 400
             raise(BadRequest.new(response))
