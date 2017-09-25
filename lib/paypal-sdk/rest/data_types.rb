@@ -324,6 +324,8 @@ module PayPal::SDK
           object_of :create_time, String
           object_of :update_time, String
           array_of :links, Links
+          object_of :payer_id, String
+          object_of :external_vault, Boolean
         end
 
         include RequestDataType
