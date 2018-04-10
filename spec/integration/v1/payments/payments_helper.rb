@@ -66,7 +66,13 @@ module PaymentsHelper
         }
       end
 
-      TestHarness::exec(PaymentCreateRequest.new, body)
+      begin
+        TestHarness::exec(PaymentCreateRequest.new, body)
+      rescue BraintreeHttp::HttpError => e
+        puts e.status_code
+        puts e.result
+        throw e
+      end
     end
   end
 end

@@ -10,6 +10,10 @@ describe PayPal::PayPalHttpClient do
     @httpClient = PayPal::PayPalHttpClient.new(@environment)
   end
 
+  after do
+    WebMock.disable!
+  end
+
   # Helpers
   def stubAccessToken
     access_token_json = JSON.generate({
@@ -37,6 +41,10 @@ describe PayPal::PayPalHttpClient do
   describe 'execute' do
     before(:each) do
       WebMock.enable!
+    end
+
+    after(:each) do
+      WebMock.disable!
     end
 
     it 'fetches access token if not yet fetched' do

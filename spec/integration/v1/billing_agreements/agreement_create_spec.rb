@@ -1,10 +1,12 @@
 require_relative '../../test_harness'
 require_relative '../billing_plans/plan_helper'
+require "braintreehttp"
 
 include PayPal::V1::BillingAgreements
 
 describe AgreementCreateRequest do
   it 'successfully makes a request' do
+    begin
     plan_response = PlanHelper::create_plan
     plan_id = plan_response.result.id
 
@@ -14,6 +16,10 @@ describe AgreementCreateRequest do
 
     expect(resp.status_code).to eq(201)
     expect(resp.result).not_to be_nil
+    rescue BraintreeHttp::HttpError => e
+      puts e.status_code
+      puts e.result
+    end
   end
 end
 
@@ -22,7 +28,7 @@ module AgreementHelper
     return {
              "name": "Override Agreement",
              "description": "PayPal payment agreement that overrides merchant preferences and shipping fee and tax information.",
-             "start_date": "2018-02-19T00:37:04Z",
+             "start_date": (Time.now + 60 * 60 * 24).utc.iso8601,
              "payer": {
                "payment_method": "paypal",
                "payer_info": {

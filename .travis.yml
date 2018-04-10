@@ -1,0 +1,9 @@
+sudo: required
+dist: trusty
+language: ruby
+rvm:
+  - "2.4.4"
+  - "2.5.1"
+script: "bundle exec rspec spec/unit"
+
+sudo: false

@@ -29,7 +29,6 @@ module WebhookHelper
       list_resp.result.webhooks.each do |webhook|
         begin
           delete_webhook(webhook.id)
-          puts "Deleted webhook #{webhook.id}"
         rescue Exception => e
           puts "Failed to delete webhook #{webhook.id}"
         end
