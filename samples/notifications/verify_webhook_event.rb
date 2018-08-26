@@ -15,7 +15,7 @@ include PayPal::SDK::Core::Logging
 # transmission_id  = request.headers["Paypal-Transmission-Id"]
 # timestamp        = request.headers["Paypal-Transmission-Time"]
 # webhook_id       = ENV['PAYPAL_WEBHOOK_ID'] #The webhook_id provided by PayPal when webhook is created on the PayPal developer site
-# event_body       = params["paypal"].to_json
+# event_body       = params.to_json
 
 # MOCK DATA for Sample purpose only. Please use above code for real use cases.
 # Paypal-Transmission-Sig header
