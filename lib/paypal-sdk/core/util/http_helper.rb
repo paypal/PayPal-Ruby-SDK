@@ -92,6 +92,7 @@ module PayPal::SDK::Core
 
         logger.add(
           response_details_log_level(response),
+          nil,
           "Response.body=#{response.body}\tResponse.header=#{response.to_hash}"
         )
 
