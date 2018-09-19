@@ -66,6 +66,7 @@ module PayPal::SDK
           object_of :experience_profile_id, String
           object_of :note_to_payer, String
           object_of :redirect_urls, RedirectUrls
+          object_of :application_context, ApplicationContext
           object_of :failure_reason, String
           object_of :create_time, String
           object_of :update_time, String
@@ -1111,6 +1112,16 @@ module PayPal::SDK
         def self.load_members
           object_of :return_url, String
           object_of :cancel_url, String
+        end
+      end
+
+      class ApplicationContext < Base
+        def self.load_members
+          object_of :brand_name, String
+          object_of :locale, String
+          object_of :landing_page, String
+          object_of :shipping_preference, String
+          object_of :user_action, String
         end
       end
 
