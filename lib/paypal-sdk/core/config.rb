@@ -206,11 +206,12 @@ module PayPal::SDK::Core
 
       def default_config(env = nil)
         env = (env || default_environment).to_s
-        if configurations[env]
-          @@config_cache[env] ||= new(configurations[env])
-        else
-          raise Exceptions::MissingConfig.new("Configuration[#{env}] NotFound")
+
+        if !configurations.key?(env) && env != default_environment
+          raise Exceptions::MissingConfig, "Configuration[#{env}] NotFound"
         end
+
+        @@config_cache[env] ||= new(configurations.fetch(env, {}))
       end
 
       # Set logger

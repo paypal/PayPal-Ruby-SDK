@@ -48,7 +48,7 @@ describe PayPal::SDK::Core::Config do
   it "Configure with block" do
     begin
       backup_configurations = Config.configurations
-      Config.configurations = nil
+      Config.configurations = {}
       Config.configure do |config|
         config.username = "Testing"
       end
