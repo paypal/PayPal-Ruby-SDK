@@ -63,6 +63,7 @@ module PayPal::SDK
           array_of  :failed_transactions, Error
           object_of :payment_instruction, PaymentInstruction
           object_of :state, String
+          object_of :application_context, ApplicationContext
           object_of :experience_profile_id, String
           object_of :note_to_payer, String
           object_of :redirect_urls, RedirectUrls
@@ -132,6 +133,17 @@ module PayPal::SDK
             PaymentHistory.new(api.get(path, options))
           end
         end
+      end
+
+      class ApplicationContext < Base
+        def self.load_members
+          object_of :brand_name, String
+          object_of :locale, String
+          object_of :landing_page, String
+          object_of :shipping_preference, String
+        end
+
+        include RequestDataType
       end
 
       class PotentialPayerInfo < Base
