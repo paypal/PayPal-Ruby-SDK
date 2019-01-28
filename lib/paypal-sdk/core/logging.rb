@@ -20,7 +20,7 @@ module PayPal::SDK::Core
       start_time = Time.now
       block.call
     ensure
-      logger.info sprintf("[%.3fs] %s", Time.now - start_time, message)
+      logger.info {sprintf("[%.3fs] %s", Time.now - start_time, message)}
     end
 
     class << self

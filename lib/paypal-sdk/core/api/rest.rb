@@ -167,7 +167,7 @@ module PayPal::SDK::Core
       # Log PayPal-Request-Id header
       def log_http_call(payload)
         if payload[:header] and payload[:header]["PayPal-Request-Id"]
-          logger.info "PayPal-Request-Id: #{payload[:header]["PayPal-Request-Id"]}"
+          logger.info {"PayPal-Request-Id: #{payload[:header]["PayPal-Request-Id"]}"}
         end
         super
       end
