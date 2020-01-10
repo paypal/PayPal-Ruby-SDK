@@ -9,7 +9,7 @@ describe "Payouts", :integration => true do
   },
   :items => [
       {
-          :recipient_type => 'Phone',
+          :recipient_type => 'PHONE',
           :amount => {
               :value => '1.0',
               :currency => 'USD'
