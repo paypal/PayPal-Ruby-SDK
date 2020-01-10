@@ -1713,6 +1713,7 @@ module PayPal::SDK
               object_of :note, String
               object_of :receiver, String
               object_of :sender_item_id, String
+              object_of :recipient_wallet, String
         end
 
         include RequestDataType

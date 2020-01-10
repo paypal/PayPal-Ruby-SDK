@@ -16,7 +16,8 @@ describe "Payouts", :integration => true do
               },
               :note => 'Thanks for your patronage!',
               :sender_item_id => '2014031400023',
-              :receiver => 'shirt-supplier-one@mail.com'
+              :receiver => 'shirt-supplier-one@mail.com',
+              :recipient_walet => 'Paypal'
           }
       ]
   }
