@@ -2588,6 +2588,83 @@ module PayPal::SDK
         end
       end
 
+      class Referral < Base
+        def self.load_members
+          include RequestDataType
+
+          object_of :customer_data, CustomerData
+          array_of :requested_capabilities, RequestedCapabilities
+          object_of :web_experience_preference, WebExperiencePreference
+          array_of :collected_consents, CollectedConsents
+          array_of :products, String
+        end
+
+        def create
+          path = 'v1/customer/partner-referrals'
+          api.post(path, self.to_hash, http_header)
+        end
+      end
+
+      class CustomerData < Base
+        def self.load_members
+          array_of :partner_specific_identifiers, PartnerIdentifers
+
+          include RequestDataType
+
+        end
+      end
+
+      class PartnerIdentifers < Base
+        def self.load_members
+          object_of :type, String
+          object_of :value, String
+        end
+      end
+
+      class RequestedCapabilities < Base
+        def self.load_members
+          object_of :capability, String
+          object_of :api_integration_preference, ApiIntegrationPreference
+        end
+      end
+
+      class ApiIntegrationPreference < Base
+        def self.load_members
+          object_of :partner_id, String
+          object_of :rest_api_integration, RestApiIntegration
+          object_of :rest_third_party_details, RestThirdPartyDetails
+        end
+      end
+
+      class RestApiIntegration < Base
+        def self.load_members
+          object_of :integration_method, String
+          object_of :integration_type, String
+        end
+      end
+
+      class RestThirdPartyDetails < Base
+        def self.load_members
+          object_of :partner_client_id, String
+          array_of :feature_list, String
+        end
+      end
+
+      class WebExperiencePreference < Base
+        def self.load_members
+          object_of :partner_logo_url, String
+          object_of :return_url, String
+          object_of :action_renewal_url, String
+        end
+      end
+
+      class CollectedConsents < Base
+        def self.load_members
+          object_of :type, String
+          object_of :granted, Boolean
+        end
+      end
+
       constants.each do |data_type_klass|
         data_type_klass = const_get(data_type_klass)
         data_type_klass.load_members if defined? data_type_klass.load_members
