@@ -10,7 +10,7 @@ We recommend that you integrate with API [v2/checkout/orders](https://developer.
 
 
 ## 2.0 Release Candidate!
-We're releasing a [brand new version of our SDK!](https://github.com/paypal/PayPal-Ruby-SDK/tree/2.0-beta) 2.0 is currently at release candidate status, and represents a full refactor, with the goal of making all of our APIs extremely easy to use. 2.0 includes all of the existing APIs (except payouts), and includes the new Orders API (disputes and Marketplace coming soon). Check out the [FAQ and migration guide](https://github.com/paypal/PayPal-Ruby-SDK/tree/2.0-beta/docs), and let us know if you have any suggestions or issues!
+We're releasing a [brand new version of our SDK!](https://github.com/paypal/PayPal-Ruby-SDK/tree/2.0-beta) 2.0 is currently at release candidate status, and represents a full refactor, with the goal of making all of our APIs extremely easy to use. 2.0 includes all of the existing APIs, and includes the new Orders API (disputes and Marketplace coming soon). Check out the [FAQ and migration guide](https://github.com/paypal/PayPal-Ruby-SDK/tree/2.0-beta/docs), and let us know if you have any suggestions or issues!
 
 ## Prerequisites
 - Ruby 2.0.0 or above
