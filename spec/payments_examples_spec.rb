@@ -11,8 +11,8 @@ describe "Payments" do
           "funding_instruments" =>  [ {
             "credit_card" =>  {
               "type" =>  "visa",
-              "number" =>  "4567516310777851",
-              "expire_month" =>  "11", "expire_year" =>  "2018",
+              "number" =>  "4032037558005936",
+              "expire_month" =>  "12", "expire_year" =>  "2022",
               "cvv2" =>  "874",
               "first_name" =>  "Joe", "last_name" =>  "Shopper",
               "billing_address" =>  {
@@ -265,6 +265,30 @@ describe "Payments" do
         it "Refund" do
           sale   = @payment.transactions[0].related_resources[0].sale
           refund = sale.refund( :amount => { :total => "1.00", :currency => "USD" } )
+          expect(refund.error).to be_nil
+
+          refund = Refund.find(refund.id)
+          expect(refund.error).to be_nil
+          expect(refund).to be_a Refund
+        end
+      end
+    end
+
+    describe "Sale with auth assertion", :integration => true do
+
+      before :each, :disabled => true do
+        sale_id = "" #replace with payment sale id
+        @sale = Sale.find(sale_id)
+        expect(@sale.error).to be_nil
+        expect(@sale).to be_a Sale
+      end
+
+      describe "instance method" do
+        it "Refund", :disabled => true do
+          api = API.new();
+          payer_id = "" #replace with subject's payer_id
+          auth_head = api.auth_assertion_header(payer_id, true)
+          refund = @sale.refund( {:amount => { :total => "1.00", :currency => "USD" }, :auth_header => auth_head} )
           expect(refund.error).to be_nil
 
           refund = Refund.find(refund.id)

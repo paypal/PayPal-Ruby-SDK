@@ -149,5 +149,35 @@ describe PayPal::SDK::OpenIDConnect do
     end
   end
 
+  describe "auth_assertion_header" do
+      it "generate an auth assertion header" do
+        alg = {"alg":"none"}
+        api = PayPal::SDK::REST::API.new
+        auth_assertion = api.auth_assertion_header()
+        expect(Base64.decode64(auth_assertion).force_encoding('UTF-8')).to match alg.to_json
+      end
+
+      it "generate an auth assertion header with email" do
+        alg = {"alg":"none"}
+        payload = {"email":"test@paypal.com", "iss":"AYSq3RDGsmBLJE-otTkBtM-jBRd1TCQwFf9RGfwddNXWz0uFU9ztymylOhRS"}
+        api = PayPal::SDK::REST::API.new
+        auth_assertion = api.auth_assertion_header("test@paypal.com")
+        auth_assertion_array = auth_assertion.split(/[\s.]/)
+        expect(Base64.decode64(auth_assertion_array[0]).force_encoding('UTF-8')).to match alg.to_json
+        expect(Base64.decode64(auth_assertion_array[1]).force_encoding('UTF-8')).to match payload.to_json
+      end
+
+      it "generate an auth assertion header with payer id" do
+        alg = {"alg":"none"}
+        payload = {"payer_id":"TEST12345", "iss":"AYSq3RDGsmBLJE-otTkBtM-jBRd1TCQwFf9RGfwddNXWz0uFU9ztymylOhRS"}
+        api = PayPal::SDK::REST::API.new
+        auth_assertion = api.auth_assertion_header("TEST12345", true)
+        auth_assertion_array = auth_assertion.split(/[\s.]/)
+        expect(Base64.decode64(auth_assertion_array[0]).force_encoding('UTF-8')).to match alg.to_json
+        expect(Base64.decode64(auth_assertion_array[1]).force_encoding('UTF-8')).to match payload.to_json
+      end
+  end
+
+
 
 end

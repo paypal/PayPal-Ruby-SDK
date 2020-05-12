@@ -9,7 +9,7 @@ module PayPal::SDK
   module REST
     module DataTypes
       class Base < Core::API::DataTypes::Base
-        attr_accessor :error
+        attr_accessor :error, :auth_header
         attr_writer   :header, :request_id
 
         def header
@@ -21,7 +21,11 @@ module PayPal::SDK
         end
 
         def http_header
-          { "PayPal-Request-Id" => request_id.to_s }.merge(header)
+          @auth_assertion_header = {}
+          if auth_header != nil
+            @auth_assertion_header = {"PayPal-Auth-Assertion" => auth_header.to_s}
+          end
+          { "PayPal-Request-Id" => request_id.to_s}.merge(@auth_assertion_header).merge(header)
         end
 
         def success?
@@ -825,6 +829,7 @@ module PayPal::SDK
         end
 
         def refund(refund)
+          @auth_header = refund[:auth_header]
           refund = Refund.new(refund) unless refund.is_a? Refund
           path = "v1/payments/sale/#{self.id}/refund"
           response = api.post(path, refund.to_hash, http_header)
@@ -832,6 +837,7 @@ module PayPal::SDK
         end
 
         def refund_request(refund_request)
+          @auth_header = refund_request[:auth_header]
           refund_request = RefundRequest.new(refund_request) unless refund_request.is_a? RefundRequest
           path = "v1/payments/sale/#{self.id}/refund"
           response = api.post(path, refund_request.to_hash, http_header)
@@ -978,6 +984,7 @@ module PayPal::SDK
 
         # Deprecated - please use refund_request
         def refund(refund)
+          @auth_header = refund[:auth_header]
           refund = Refund.new(refund) unless refund.is_a? Refund
           path = "v1/payments/capture/#{self.id}/refund"
           response = api.post(path, refund.to_hash, http_header)
@@ -985,6 +992,7 @@ module PayPal::SDK
         end
 
         def refund_request(refund_request)
+          @auth_header = refund_request[:auth_header]
           refund_request = RefundRequest.new(refund_request) unless refund_request.is_a? RefundRequest
           path = "v1/payments/capture/#{self.id}/refund"
           response = api.post(path, refund_request.to_hash, http_header)

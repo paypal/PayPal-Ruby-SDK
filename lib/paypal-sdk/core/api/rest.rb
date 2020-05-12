@@ -164,6 +164,34 @@ module PayPal::SDK::Core
         new_hash
       end
 
+      # Generate paypal auth-assertion-header
+      def auth_assertion_header(id=nil, is_payer_id=false, alg=nil, kid= nil)
+        header = {
+          "alg" => "none"
+        }
+        if alg != nil
+          header = {
+            "alg" => alg,
+            "kid" => kid
+          }
+        end
+        if is_payer_id == false
+          body = { "email" => id,
+                    "iss" => config.client_id
+                 }
+        else
+          body = { "payer_id" => id,
+                    "iss" => config.client_id
+                 }
+        end
+        encodedHeader = Base64.encode64(header.to_json.to_s.force_encoding('UTF-8')).gsub!(/\n/, "")
+        encodedBody = Base64.encode64(body.to_json.to_s.force_encoding('UTF-8')).gsub!(/\n/, "")
+        @auth_header = "#{encodedHeader}.#{encodedBody}."
+        logger.info "auth_header: #{@auth_header}"
+        return @auth_header
+      end
+      attr_writer :auth_assertion_header
+
       # Log PayPal-Request-Id header
       def log_http_call(payload)
         if payload[:header] and payload[:header]["PayPal-Request-Id"]
