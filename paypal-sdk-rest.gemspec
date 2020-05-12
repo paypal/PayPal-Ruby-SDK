@@ -8,8 +8,8 @@ Gem::Specification.new do |gem|
   gem.version       = PayPal::SDK::REST::VERSION
   gem.authors       = ["PayPal"]
   gem.email         = ["DL-PP-RUBY-SDK@paypal.com"]
-  gem.summary       = %q{The PayPal REST SDK provides Ruby APIs to create, process and manage payment.}
-  gem.description   = %q{The PayPal REST SDK provides Ruby APIs to create, process and manage payment.}
+  gem.summary       = %q{The PayPal REST SDK provides Ruby APIs to create, process and manage payment. Forked from PayPal to include Subscription API}
+  gem.description   = %q{The PayPal REST SDK provides Ruby APIs to create, process and manage payment. Forked from PayPal to include Subscription API}
   gem.homepage      = "https://developer.paypal.com"
   
   gem.license       = "PayPal SDK License"

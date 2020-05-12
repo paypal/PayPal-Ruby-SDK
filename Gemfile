@@ -10,6 +10,7 @@ group :test do
   gem 'simplecov', :require => false
   gem 'rspec'
   gem 'webmock'
+  gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
 end
 
 gem 'releasinator', '~> 0.6'
