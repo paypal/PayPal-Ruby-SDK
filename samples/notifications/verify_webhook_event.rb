@@ -32,6 +32,7 @@ event_body = '{"id":"WH-0G2756385H040842W-5Y612302CV158622M","create_time":"2015
 
 # verify webhook
 # pass all the field to `WebhookEvent.verify()` method which returns true or false based on validation
+# make sure you are not using Webhooks simulator because mocks can't be validated: https://developer.paypal.com/developer/webhooksSimulator/
 valid = WebhookEvent.verify(transmission_id, timestamp, webhook_id, event_body, cert_url, actual_signature, auth_algo)
 
 if valid
