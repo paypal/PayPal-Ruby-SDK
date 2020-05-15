@@ -2588,6 +2588,20 @@ module PayPal::SDK
         end
       end
 
+      class Partners < Base
+        def self.load_members
+          include RequestDataType
+
+          object_of :partner_id, String
+          object_of :merchant_id, String
+
+          def retrieve
+            path = "v1/customer/partners/#{partner_id}/merchant-integrations/#{merchant_id}"
+            api.get(path)
+          end
+        end
+      end
+
       constants.each do |data_type_klass|
         data_type_klass = const_get(data_type_klass)
         data_type_klass.load_members if defined? data_type_klass.load_members
