@@ -81,19 +81,17 @@ module PayPal::SDK::Core
       # Log Http call
       # * payload - Hash(:http, :method, :uri, :body, :header)
       def log_http_call(payload)
-        logger.info "Request[#{payload[:method]}]: #{payload[:uri].to_s}"
+        logger.info {"Request[#{payload[:method]}]: #{payload[:uri].to_s}"}
 
-        logger.debug "Request.body=#{payload[:body]}\trequest.header=#{payload[:header]}"
+        logger.debug {"Request.body=#{payload[:body]}\trequest.header=#{payload[:header]}"}
 
         start_time = Time.now
         response = yield
-        logger.info sprintf("Response[%s]: %s, Duration: %.3fs", response.code,
-          response.message, Time.now - start_time)
+        logger.info {
+          sprintf("Response[%s]: %s, Duration: %.3fs", response.code, response.message, Time.now - start_time)
+        }
 
-        logger.add(
-          response_details_log_level(response),
-          "Response.body=#{response.body}\tResponse.header=#{response.to_hash}"
-        )
+        logger.add(response_details_log_level(response)) {"Response.body=#{response.body}\tResponse.header=#{response.to_hash}"}
 
         response
       end
