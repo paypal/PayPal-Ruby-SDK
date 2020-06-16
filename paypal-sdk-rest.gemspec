@@ -14,6 +14,8 @@ Gem::Specification.new do |gem|
   
   gem.license       = "PayPal SDK License"
 
+  gem.required_ruby_version = '>= 2.3'
+
   gem.files         = Dir["{bin,spec,lib}/**/*"] + ["Rakefile", "README.md", "Gemfile"] + Dir["data/*"]
   gem.executables   = gem.files.grep(%r{^bin/}).map{ |f| File.basename(f) }
   gem.test_files    = gem.files.grep(%r{^(test|spec|features)/})
