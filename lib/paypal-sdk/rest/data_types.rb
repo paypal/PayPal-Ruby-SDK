@@ -1447,8 +1447,9 @@ module PayPal::SDK
         include RequestDataType
 
         class << self
-          def get_all(options = {})
+          def get_all(options = {}, access_token = nil)
             path = "v1/invoicing/templates/"
+            api.token = access_token unless access_token.nil?
             Templates.new(api.get(path, options))
           end
         end
