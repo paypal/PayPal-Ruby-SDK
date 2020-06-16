@@ -1588,11 +1588,7 @@ module PayPal::SDK
 
           def get_resource_class(name)
             class_array = PayPal::SDK::REST.constants.select {|c| Class === PayPal::SDK::REST.const_get(c)}
-            class_array.each do |classname|
-              if (classname.to_s.downcase == name.downcase)
-                return classname
-              end
-            end
+            class_array.detect { |classname| classname.to_s.downcase == name.downcase }
           end
 
           def search(page_size, start_time, end_time)
